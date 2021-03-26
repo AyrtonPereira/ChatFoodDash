@@ -1,8 +1,7 @@
 <template>
   <!-- eslint-disable -->
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <Menu :dishList="dishes" />
+    <Menu />
   </div>
 </template>
 
@@ -13,7 +12,6 @@ import Menu from "@/components/Menu/Menu.vue";
 
 @Component({
   components: {
-    HelloWorld,
     Menu
   }
 })

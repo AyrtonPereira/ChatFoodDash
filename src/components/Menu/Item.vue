@@ -1,16 +1,19 @@
 <!--eslint-disable-->
 <template>
-    <div class="item">
+    <div v-if="dish.stock.availability > 0 || dish.selected > 0" 
+        class="item" 
+        v-bind:class="{'selected': dish.selected > 0}" 
+        v-on:click="$emit('updateCart', {id: dish.id, category: dish.category_id})">
         <div class="text-container">
-            <span class="dish-name">{{dishName}}</span>
-            <span class="description">{{dishDescription}}</span>
+            <span class="dish-name"><span v-if="dish.selected > 1">{{dish.selected + ' x '}}</span>{{dish.name}}</span>
+            <span class="description" :title="dish.description" >{{dish.description}}</span>
             <div class="price-block">
-                <span v-bind:class="[discount ? 'old-price' : 'price']">AED {{parseFloat(price)}}</span>
-                <span class="price">{{ discount ? 'AED ' + applyDiscount(price, discount) : ''}}</span>
+                <span v-bind:class="[dish.discount_rate? 'old-price' : 'price']">AED {{parseFloat(dish.price)}}</span>
+                <span class="price">{{ dish.discount_rate ? 'AED ' + applyDiscount(dish.price, dish.discount_rate) : ''}}</span>
             </div>
         </div>
         <div class="image-container">
-            <img class="item-picture" v-bind:src="imageUrl" />
+            <img class="item-picture" v-bind:src="dish.photo" />
         </div>
     </div>
 </template>
@@ -22,14 +25,14 @@
 
     @Component
     export default class Item extends Vue {
-        @Prop() private dishName!: string;
-        @Prop() private dishDescription!: string;
-        @Prop() private price!: string;
-        @Prop() private discount!: string;
-        @Prop() private imageUrl!: string;
+        @Prop() private dish!: object;
 
         applyDiscount (price: number, percent: number): number {
             return price - (price * percent);
+        }
+
+        showMessage(name: string): void {
+            alert(name)
         }
     }
 </script>
@@ -46,6 +49,16 @@
         padding: 21px 0 28px;
         border-bottom: 1px solid #F4F6F9;
         margin: 0 21px;
+        cursor: pointer;
+
+        &.selected {
+            margin-left: 0;
+
+            .text-container {
+                border-left: 7px solid #1258FF;
+                padding-left: 14px;
+              }
+        }
         
         .text-container {
             justify-content: start;
@@ -53,6 +66,7 @@
             flex-direction: column;
             text-align: start;
             min-width: 235px;
+            padding-right: 7px;
 
             span { 
                 font-family: 'Inter', sans-serif;
