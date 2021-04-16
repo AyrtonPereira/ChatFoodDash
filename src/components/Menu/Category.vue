@@ -1,6 +1,6 @@
 <template>
-  <div v-if="categories.items.length > 0">
-    <span class="category-name">{{categories.name}}</span>
+  <div class="category-box" v-if="categories.items.length > 0">
+    <h2 class="category-name">{{ categories.name }}</h2>
     <Item
       v-for="item in categories.items"
       :key="item.id"
@@ -11,31 +11,33 @@
 </template>
 
 <script lang="ts">
-    /* eslint-disable */
-    import { Component, Prop, Vue } from "vue-property-decorator";
-    import axios from "axios";
-    import Item from "@/components/Menu/Item.vue";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import Item from "@/components/Menu/Item.vue";
 
-    @Component({
-    components: {
-        Item,
-    },
-    })
-    export default class Category extends Vue {
-        @Prop() categories!: object;
+@Component({
+  components: {
+    Item
+  }
+})
+export default class Category extends Vue {
+  @Prop() categories!: object;
 
-          updateCart(data: JSON): void {
-            this.$emit('updateCart', data);
-          } 
-    }
+  updateCart(data: JSON): void {
+    this.$emit("updateCart", data);
+  }
+}
 </script>
 
-<style>
-    .category-name {
-        color: #071C4D;
-        font-weight: 600;
-        font-size: 26px;
-        margin: 28px 0 21px;
-        display: block;
-    }
+<style lang="scss">
+.category-box {
+  text-align: left;
+
+  .category-name {
+    color: #071c4d;
+    font-weight: 600;
+    font-size: 26px;
+    margin: 28px 21px 21px;
+    display: block;
+  }
+}
 </style>
